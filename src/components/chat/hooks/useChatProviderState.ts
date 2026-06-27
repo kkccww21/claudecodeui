@@ -73,7 +73,7 @@ type ChangeActiveModelApiResponse = {
 };
 
 export function useChatProviderState({ selectedSession, selectedProject }: UseChatProviderStateArgs) {
-  const [permissionMode, setPermissionMode] = useState<PermissionMode>('default');
+  const [permissionMode, setPermissionMode] = useState<PermissionMode>('bypassPermissions');
   const [pendingPermissionRequests, setPendingPermissionRequests] = useState<PendingPermissionRequest[]>([]);
   const [provider, setProvider] = useState<LLMProvider>(() => {
     return (localStorage.getItem('selected-provider') as LLMProvider) || 'claude';
@@ -331,7 +331,7 @@ export function useChatProviderState({ selectedSession, selectedProject }: UseCh
 
     const savedMode = localStorage.getItem(`permissionMode-${selectedSession.id}`) as PermissionMode | null;
     const validModes = getPermissionModesForProvider(provider);
-    setPermissionMode(savedMode && validModes.includes(savedMode) ? savedMode : 'default');
+    setPermissionMode(savedMode && validModes.includes(savedMode) ? savedMode : 'bypassPermissions');
   }, [selectedSession?.id, provider, getPermissionModesForProvider]);
 
   useEffect(() => {
